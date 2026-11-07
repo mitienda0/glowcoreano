@@ -163,6 +163,51 @@
   .preventa-titulo { font-family: "Fraunces", Georgia, serif; font-size: 1.3rem; font-weight: 600; color: var(--rosa-oscuro); margin-bottom: 6px !important; }
   .preventa-titulo span { color: var(--rosa-fuerte); }
   .preventa-envio { margin-top: 8px !important; font-weight: 500; color: var(--rosa-oscuro); }
+  .pedir.ir-pagar { background: var(--rosa-fuerte); }
+  .pedir.ir-pagar:not(:disabled):hover { background: var(--rosa-oscuro); }
+  .pedir.ir-pagar:disabled { background: #CDBFC3; }
+  body.bloqueado .barra-pagar { display: none; }
+  .pago { max-width: 1100px; margin: 0 auto; padding: 28px 24px 80px; }
+  .pago[hidden], .barra-pagar[hidden], #tienda[hidden] { display: none; }
+  .volver { border: none; background: none; color: var(--rosa-oscuro); font-weight: 600; cursor: pointer; padding: 6px 0; }
+  .pago-titulo { font-family: "Fraunces", Georgia, serif; font-weight: 400; font-size: clamp(1.9rem, 4vw, 2.6rem); margin: 10px 0 6px; }
+  .pago-sub { margin: 0 0 24px; color: var(--texto-suave); }
+  .pago-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+  .pago-col .entrega, .resumen {
+    background: rgba(255, 255, 255, .78); border: 1.5px solid var(--rubor); border-radius: 22px; padding: 22px;
+    box-shadow: 0 6px 24px rgba(185, 86, 111, .07); margin: 0;
+  }
+  .pago-col .ficha { background: var(--fondo); }
+  .pago-col .campo input, .pago-col .campo select { background: var(--blanco); }
+  .resumen { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 90px); }
+  .resumen-titulo { margin: 0 0 12px; font-weight: 600; font-size: 1.05rem; }
+  .resumen-titulo span { font-weight: 400; font-size: .82rem; color: var(--texto-suave); margin-left: 6px; }
+  .r-item { display: grid; grid-template-columns: 48px 1fr auto; gap: 12px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--rubor); }
+  .r-item .item-foto { width: 48px; height: 60px; border-radius: 10px; }
+  .r-item p { margin: 0; font-size: .88rem; line-height: 1.3; }
+  .r-item .r-cant { color: var(--texto-suave); font-size: .8rem; }
+  .r-item .r-precio { font-weight: 600; white-space: nowrap; }
+  .editar { border: none; background: none; color: var(--rosa-oscuro); text-decoration: underline; cursor: pointer; font-size: .85rem; padding: 8px 0 14px; }
+  .barra-pagar {
+    position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 16px); z-index: 8;
+    display: flex; align-items: center; gap: 16px; padding: 10px 10px 10px 20px; border-radius: 999px;
+    background: var(--texto); color: var(--blanco); box-shadow: 0 12px 32px rgba(75, 45, 54, .3); white-space: nowrap;
+  }
+  .barra-pagar strong { font-weight: 700; }
+  .barra-pagar button {
+    border: none; border-radius: 999px; background: var(--rosa-fuerte); color: var(--blanco);
+    font-weight: 700; padding: 11px 20px; cursor: pointer;
+  }
+  .barra-pagar button:hover { background: var(--rosa); color: var(--texto); }
+  body.con-barra { padding-bottom: 90px; }
+  @media (max-width: 860px) {
+    .pago-grid { grid-template-columns: 1fr; }
+    .resumen { position: static; }
+  }
+  @media (max-width: 600px) {
+    .pago { padding: 20px 16px 60px; }
+    .barra-pagar { left: 16px; right: 16px; transform: none; justify-content: space-between; }
+  }
   .nota-sena { margin: -6px 0 14px; font-size: .8rem; color: var(--texto-suave); }
   .antes + .pie { margin-top: 0; }
   .antes { margin: auto 0 2px; display: flex; align-items: center; gap: 8px; font-size: .85rem; color: var(--texto-suave); }
@@ -300,6 +345,7 @@
   </div>
 </header>
 
+<div id="tienda">
 <section class="portada">
   <h1>Glow Coreano <span class="estrella" aria-hidden="true">✦</span></h1>
   <p>Productos originales importados directo de Corea.</p>
@@ -319,17 +365,14 @@
 </nav>
 
 <main class="grilla" id="grilla"></main>
+</div>
 
-<div class="velo" id="velo"></div>
-<aside class="carrito" id="carrito" aria-label="Carrito" aria-hidden="true">
-  <div class="carrito-cabeza">
-    <h2>Tu carrito</h2>
-    <button class="icono" id="cerrar-carrito" aria-label="Cerrar carrito">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
-    </button>
-  </div>
-  <div class="carrito-cuerpo">
-    <div class="carrito-lista" id="carrito-lista"></div>
+<section class="pago" id="pago" hidden>
+  <button class="volver" id="volver">← Volver a la tienda</button>
+  <h2 class="pago-titulo">Finalizá tu reserva <span class="estrella" aria-hidden="true">✦</span></h2>
+  <p class="pago-sub">Elegí cómo querés recibir tu pedido, completá tus datos y envianos la reserva por WhatsApp.</p>
+  <div class="pago-grid">
+    <div class="pago-col">
     <div class="entrega" id="entrega">
       <p class="entrega-titulo">Forma de entrega</p>
       <p class="entrega-info">Podés retirar tu pedido sin cargo en Nordelta o Villanueva. Los envíos a domicilio dentro de Nordelta y Villanueva también son sin cargo. Para envíos a domicilio en otras zonas, el costo es de $10.000, y es gratis llevando 2 o más productos.</p>
@@ -371,18 +414,46 @@
         <label class="campo"><span>Email</span><input type="email" data-campo="email" data-etiqueta="Email" autocomplete="email" required></label>
       </div>
     </div>
+    </div>
+    <aside class="resumen">
+      <p class="resumen-titulo">Tu pedido <span id="pago-codigo"></span></p>
+      <div id="resumen-lista"></div>
+      <button class="editar" id="editar-carrito">Editar carrito</button>
+      <div class="fila"><span>Subtotal</span><span id="subtotal">$0</span></div>
+      <div class="fila"><span>Envío</span><span id="costo-envio">—</span></div>
+      <div class="fila"><span>Total del pedido</span><span id="total">$0</span></div>
+      <div class="total"><span>Seña a abonar (20%)</span><strong id="sena-total">$0</strong></div>
+      <p class="nota-sena">El saldo se abona al recibir el producto. Si te arrepentís, te devolvemos la seña en su totalidad.</p>
+      <button class="pedir" id="pedir" disabled>
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3z"/></svg>
+        Reservar por WhatsApp
+      </button>
+      <p class="aviso" id="aviso">Seleccioná una forma de entrega para continuar.</p>
+    </aside>
+  </div>
+</section>
+
+<div class="barra-pagar" id="barra-pagar" hidden>
+  <span id="barra-info"></span>
+  <button id="barra-ir">Ir a pagar →</button>
+</div>
+
+<div class="velo" id="velo"></div>
+<aside class="carrito" id="carrito" aria-label="Carrito" aria-hidden="true">
+  <div class="carrito-cabeza">
+    <h2>Tu carrito</h2>
+    <button class="icono" id="cerrar-carrito" aria-label="Cerrar carrito">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <div class="carrito-cuerpo">
+    <div class="carrito-lista" id="carrito-lista"></div>
   </div>
   <div class="carrito-pie">
-    <div class="fila"><span>Subtotal</span><span id="subtotal">$0</span></div>
-    <div class="fila"><span>Envío</span><span id="costo-envio">—</span></div>
-    <div class="fila"><span>Total del pedido</span><span id="total">$0</span></div>
-    <div class="total"><span>Seña a abonar (20%)</span><strong id="sena-total">$0</strong></div>
-    <p class="nota-sena" id="nota-sena">El saldo se abona al recibir el producto. Si te arrepentís, te devolvemos la seña en su totalidad.</p>
-    <button class="pedir" id="pedir" disabled>
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.4-.3z"/></svg>
-      Reservar por WhatsApp
-    </button>
-    <p class="aviso" id="aviso">Te abre WhatsApp con tu pedido listo para enviar.</p>
+    <div class="fila"><span>Subtotal</span><span id="c-subtotal">$0</span></div>
+    <div class="total"><span>Seña a abonar (20%)</span><strong id="c-sena">$0</strong></div>
+    <button class="pedir ir-pagar" id="ir-pagar" disabled>Ir a pagar</button>
+    <p class="aviso">En el siguiente paso elegís la forma de entrega.</p>
   </div>
 </aside>
 
@@ -533,36 +604,30 @@
     dibujarCarrito();
   }
 
+  const subtotalCarrito = () => Object.keys(carrito).reduce((s, id) => s + carrito[id] * buscarProducto(id).precio, 0);
+  const enPago = () => location.hash === "#pagar";
+
   function dibujarCarrito() {
     const ids = Object.keys(carrito);
-    const unidades = ids.reduce((s, id) => s + carrito[id], 0);
-    const subtotal = ids.reduce((s, id) => s + carrito[id] * buscarProducto(id).precio, 0);
-    const zona = zonaElegida();
+    const unidades = unidadesCarrito();
+    const subtotal = subtotalCarrito();
     $("burbuja").hidden = unidades === 0;
     $("burbuja").textContent = unidades;
-    $("entrega").hidden = unidades === 0;
-    $("subtotal").textContent = pesos(subtotal);
-    const gratis = envioGratis();
-    $("precio-otra").innerHTML = gratis ? '<s>$10.000</s> <span class="gratis">Gratis</span>' : pesos(COSTO_ENVIO);
-    $("costo-envio").textContent = !zona ? "—" : zona === "otra" ? (gratis ? "Gratis" : pesos(COSTO_ENVIO)) : "Sin cargo";
-    const totalPedido = subtotal + (unidades ? costoEnvio() : 0);
-    $("total").textContent = pesos(totalPedido);
-    $("sena-total").textContent = pesos(sena(subtotal));
-    ["retiro", "local", "otra"].forEach(z => { $("ficha-" + z).hidden = z !== zona; });
-    const completa = fichaCompleta();
-    $("pedir").disabled = unidades === 0 || !zona || !completa;
-    $("aviso").textContent = !unidades ? "Te abre WhatsApp con tu pedido listo para enviar."
-      : !zona ? "Seleccioná una forma de entrega para continuar."
-      : !completa ? "Completá los datos de entrega para continuar."
-      : "Te abre WhatsApp con tu pedido listo para enviar.";
+    $("c-subtotal").textContent = pesos(subtotal);
+    $("c-sena").textContent = pesos(sena(subtotal));
+    $("ir-pagar").disabled = unidades === 0;
+    const barra = unidades > 0 && !enPago();
+    $("barra-pagar").hidden = !barra;
+    document.body.classList.toggle("con-barra", barra);
+    $("barra-info").innerHTML = `${unidades} producto${unidades === 1 ? "" : "s"} · <strong>${pesos(subtotal)}</strong>`;
+    if (!unidades) { codigoActual = ""; guardarCodigo(); }
 
     if (!ids.length) {
       lista.innerHTML = '<div class="carrito-vacio"><strong>Tu carrito está vacío</strong>Tocá “Reservar” en los productos que quieras.</div>';
-      return;
-    }
-    lista.innerHTML = ids.map(id => {
-      const p = buscarProducto(id);
-      return `<div class="item">
+    } else {
+      lista.innerHTML = ids.map(id => {
+        const p = buscarProducto(id);
+        return `<div class="item">
         <div class="item-foto">${fotoHTML(p)}</div>
         <div>
           <p class="item-marca">${p.marca} · ${p.contenido}</p>
@@ -574,7 +639,79 @@
           <button class="quitar" data-accion="quitar" data-id="${id}">Quitar</button>
         </div>
       </div>`;
+      }).join("");
+    }
+    if (enPago()) { if (!unidades) location.hash = ""; else dibujarPago(); }
+  }
+
+  // Pantalla de pago
+  function dibujarPago() {
+    const ids = Object.keys(carrito);
+    const subtotal = subtotalCarrito();
+    const zona = zonaElegida();
+    const gratis = envioGratis();
+    $("pago-codigo").textContent = "· " + obtenerCodigo();
+    $("resumen-lista").innerHTML = ids.map(id => {
+      const p = buscarProducto(id);
+      return `<div class="r-item"><div class="item-foto">${fotoHTML(p)}</div>
+        <div><p>${p.marca} · ${p.nombre}</p><p class="r-cant">${carrito[id]} x ${pesos(p.precio)}</p></div>
+        <p class="r-precio">${pesos(p.precio * carrito[id])}</p></div>`;
     }).join("");
+    $("subtotal").textContent = pesos(subtotal);
+    $("precio-otra").innerHTML = gratis ? '<s>$10.000</s> <span class="gratis">Gratis</span>' : pesos(COSTO_ENVIO);
+    $("costo-envio").textContent = !zona ? "—" : zona === "otra" ? (gratis ? "Gratis" : pesos(COSTO_ENVIO)) : "Sin cargo";
+    $("total").textContent = pesos(subtotal + costoEnvio());
+    $("sena-total").textContent = pesos(sena(subtotal));
+    ["retiro", "local", "otra"].forEach(z => { $("ficha-" + z).hidden = z !== zona; });
+    actualizarBoton();
+  }
+  function actualizarBoton() {
+    const zona = zonaElegida(), completa = fichaCompleta();
+    $("pedir").disabled = !unidadesCarrito() || !zona || !completa;
+    $("aviso").textContent = !zona ? "Seleccioná una forma de entrega para continuar."
+      : !completa ? "Completá los datos de entrega para continuar."
+      : "Te abre WhatsApp con tu pedido listo para enviar.";
+  }
+
+  function mostrarVista() {
+    const pago = enPago() && unidadesCarrito() > 0;
+    if (enPago() && !pago) history.replaceState(null, "", location.pathname + location.search);
+    const cambio = $("pago").hidden === pago;
+    $("tienda").hidden = pago;
+    $("pago").hidden = !pago;
+    if (cambio) window.scrollTo(0, 0);
+    dibujarCarrito();
+    if (pago) registrar("Sin terminar");
+  }
+  function irAPagar() {
+    if (!unidadesCarrito()) return;
+    cerrarCarrito();
+    if (enPago()) mostrarVista(); else location.hash = "pagar";
+  }
+
+  // Código de pedido (se mantiene mientras el carrito tenga productos)
+  let codigoActual = "";
+  try { codigoActual = localStorage.getItem("codigo-skincare") || ""; } catch (e) {}
+  function guardarCodigo() { try { localStorage.setItem("codigo-skincare", codigoActual); } catch (e) {} }
+  function obtenerCodigo() { if (!codigoActual) { codigoActual = codigoPedido(); guardarCodigo(); } return codigoActual; }
+
+  // Guardar el pedido en la planilla (se actualiza la misma fila con cada cambio)
+  const formas = { retiro: "Retiro", local: "Envío a domicilio en Nordelta o Villanueva", otra: "Envío a domicilio en otra zona" };
+  function registrar(estado) {
+    if (!PLANILLA_URL || !unidadesCarrito()) return;
+    const ids = Object.keys(carrito), subtotal = subtotalCarrito(), envio = costoEnvio(), zona = zonaElegida();
+    const campos = {};
+    if (fichaActual()) fichaActual().querySelectorAll("[data-campo]").forEach(c => { campos[c.dataset.campo] = c.value.trim(); });
+    const pedido = {
+      codigo: obtenerCodigo(), estado, entrega: zona ? formas[zona] : "", ...campos,
+      productos: ids.map(id => carrito[id] + " x " + buscarProducto(id).marca + " " + buscarProducto(id).nombre).join(" | "),
+      unidades: unidadesCarrito(), subtotal, envio, total: subtotal + envio,
+      sena: sena(subtotal), saldo: subtotal + envio - sena(subtotal), whatsapp: zona ? numeroWhatsApp() : ""
+    };
+    try {
+      fetch(PLANILLA_URL, { method: "POST", mode: "no-cors", keepalive: true,
+        headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(pedido) });
+    } catch (e) {}
   }
 
   function codigoPedido() {
@@ -596,23 +733,8 @@
     if (!zona || !fichaCompleta()) return;
     const datos = datosFicha().map(d => d.etiqueta + ": " + d.valor);
     const envio = costoEnvio();
-    const codigo = codigoPedido();
-    // Guardar el pedido en la planilla
-    const campos = {};
-    fichaActual().querySelectorAll("[data-campo]").forEach(c => { campos[c.dataset.campo] = c.value.trim(); });
-    const formas = { retiro: "Retiro", local: "Envío a domicilio en Nordelta o Villanueva", otra: "Envío a domicilio en otra zona" };
-    const pedido = {
-      codigo, entrega: formas[zona], ...campos,
-      productos: ids.map(id => carrito[id] + " x " + buscarProducto(id).marca + " " + buscarProducto(id).nombre).join(" | "),
-      unidades: unidadesCarrito(), subtotal: total, envio, total: total + envio,
-      sena: sena(total), saldo: total + envio - sena(total), whatsapp: numeroWhatsApp()
-    };
-    if (PLANILLA_URL) {
-      try {
-        fetch(PLANILLA_URL, { method: "POST", mode: "no-cors", keepalive: true,
-          headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(pedido) });
-      } catch (e) {}
-    }
+    const codigo = obtenerCodigo();
+    registrar("Pendiente de seña");
     const mensaje = [
       "¡Hola! Quiero reservar estos productos en preventa:",
       "",
@@ -656,13 +778,15 @@
   velo.addEventListener("click", cerrarCarrito);
   document.addEventListener("keydown", e => { if (e.key === "Escape") cerrarCarrito(); });
   $("pedir").addEventListener("click", pedirPorWhatsApp);
-  document.querySelectorAll('input[name="zona"]').forEach(i => i.addEventListener("change", dibujarCarrito));
-  // Al completar la ficha se habilita el botón (sin redibujar los productos)
-  $("entrega").addEventListener("input", () => {
-    const completa = fichaCompleta();
-    $("pedir").disabled = !Object.keys(carrito).length || !completa;
-    $("aviso").textContent = completa ? "Te abre WhatsApp con tu pedido listo para enviar." : "Completá los datos de entrega para continuar.";
-  });
+  $("ir-pagar").addEventListener("click", irAPagar);
+  $("barra-ir").addEventListener("click", irAPagar);
+  $("volver").addEventListener("click", () => { location.hash = ""; });
+  $("editar-carrito").addEventListener("click", () => { location.hash = ""; setTimeout(abrirCarrito, 50); });
+  window.addEventListener("hashchange", mostrarVista);
+  document.querySelectorAll('input[name="zona"]').forEach(i => i.addEventListener("change", dibujarPago));
+  // Cada dato que completan se guarda en la planilla
+  $("entrega").addEventListener("change", () => registrar("Sin terminar"));
+  $("entrega").addEventListener("input", actualizarBoton);
 
   input.addEventListener("input", mostrar);
   lupa.addEventListener("click", () => {
@@ -692,7 +816,7 @@
   })();
 
   mostrar();
-  dibujarCarrito();
+  mostrarVista();
 </script>
 </body>
 </html>
