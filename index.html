@@ -51,6 +51,18 @@
     display: grid; place-items: center; transition: background .2s;
   }
   .icono:hover { background: var(--rosa); }
+  .insta {
+    display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 999px;
+    background: var(--rubor); color: var(--rosa-oscuro); font-weight: 600; font-size: .9rem; text-decoration: none;
+    transition: background .2s;
+  }
+  .insta:hover { background: var(--rosa); }
+  .insta-corto { display: none; }
+  @media (max-width: 600px) {
+    .insta { width: 44px; padding: 0; justify-content: center; }
+    .insta-largo { display: none; }
+    .insta-corto { display: inline; font-size: .85rem; letter-spacing: .02em; }
+  }
   .icono svg { width: 20px; height: 20px; }
   .burbuja {
     position: absolute; top: -3px; right: -3px; min-width: 20px; height: 20px; padding: 0 5px;
@@ -271,6 +283,9 @@
   <div class="barra-interior">
     <span class="marca">Glow Coreano <span class="estrella" aria-hidden="true">✦</span></span>
     <div class="acciones">
+      <a class="insta" href="https://www.instagram.com/glowcoreano_/" target="_blank" rel="noopener" aria-label="Seguinos en Instagram: @glowcoreano_">
+        <span class="insta-largo">@glowcoreano_</span><span class="insta-corto" aria-hidden="true">IG</span>
+      </a>
       <button class="icono" id="lupa" aria-label="Buscar productos" aria-expanded="false" aria-controls="buscador">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       </button>
